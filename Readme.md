@@ -4,11 +4,12 @@ This module for Node.js helps searching images using Google Images. It provides 
 
 # Installation
 Install from NPM:
-`npm install google-images`
+
+```npm install google-images```
 
 # Usage
 
-`
+```
 googleImages = require('google-images');
 
 googleImages.search('Katy Perry', function(results){
@@ -20,7 +21,7 @@ googleImages.search('Katy Perry', function(results){
 		console.log('finished');
 	});
 });
-`
+```
 
 # License 
 
