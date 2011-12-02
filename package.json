@@ -1,0 +1,10 @@
+{
+    "name": "google-images"
+  , "version": "0.0.1"
+  , "description": "Search images using Google Images"
+  , "keywords": ["google", "images", "google images", "image search"]
+  , "author": "Vadim Demedes <sbioko@gmail.com>"
+  , "dependencies": { "request": "*" }
+  , "main": "index"
+  , "engines": { "node": "0.4.x" }
+}
