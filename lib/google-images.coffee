@@ -1,8 +1,7 @@
 request = require 'request'
 fs = require 'fs'
 
-class GoogleImages
-	
+module.exports=
 	search: (query, callback) ->
 		return callback [] if not query
 		
@@ -22,6 +21,3 @@ class GoogleImages
 						request(item.url).pipe stream
 			
 			callback images
-
-
-module.exports = new GoogleImages
