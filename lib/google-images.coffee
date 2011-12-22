@@ -5,7 +5,7 @@ module.exports=
 	search: (query, callback) ->
 		return callback [] if not query
 		
-		request 'http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=' + query.replace(/\s+/, '+'), (err, res, body) ->
+		request 'http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=' + query.replace(/\s/g, '+'), (err, res, body) ->
 			items = JSON.parse(body).responseData.results
 			images = []
 			for item in items
@@ -20,4 +20,4 @@ module.exports=
 							callback()
 						request(item.url).pipe stream
 			
-			callback images
+			callback images if callback
