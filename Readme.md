@@ -1,6 +1,9 @@
 # google-images
 
-This module for Node.js helps searching images using Google Images. It provides just one method, *search*, don't you need just that?
+This module for Node.js helps searching images using Google Images. It
+provides two functions - `search` and `searchPages`. `search` returns
+a single page of results (4 images). `searchPages` takes an extra
+parameter for the number of search result pages you want.
 
 # Installation
 Install from NPM:
@@ -14,16 +17,22 @@ googleImages = require('google-images');
 
 googleImages.search('Katy Perry', function(results){
 	// let's say we want to save first image to a file
-	
+
 	results[0].writeTo('katy.png', function(){
 		// this function fires when file write op completed
 
 		console.log('finished');
 	});
 });
+
+// If you want to fetch 5 pages of results, use the searchPages function
+googleImages.searchPages('Katy Perry', 5, function(results){
+        // results should be an array of 20 image objects
+        console.log(results);
+});
 ```
 
-# License 
+# License
 
 (The MIT License)
 
