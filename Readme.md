@@ -14,16 +14,21 @@ googleImages = require('google-images');
 
 googleImages.search('Katy Perry', function(results){
 	// let's say we want to save first image to a file
-	
+
 	results[0].writeTo('katy.png', function(){
 		// this function fires when file write op completed
 
 		console.log('finished');
 	});
 });
+
+// If you want to fetch 5 pages of results, use the searchPages function
+googleImages.searchPages('Katy Perry', 5, function(results){
+        console.log(results);
+});
 ```
 
-# License 
+# License
 
 (The MIT License)
 
