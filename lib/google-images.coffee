@@ -8,9 +8,7 @@ exports.searchPages = searchPages = (query, num_pages, callback, images = [], pa
 		url = "#{url}&start=#{start_index}"
 	request url, (err, res, body) ->
 		response_data = JSON.parse(body).responseData
-		console.log(response_data)
 		items = response_data.results
-		console.log(items)
 		for item in items
 			images.push
 				width: item.width
