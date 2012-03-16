@@ -10,17 +10,17 @@ Install from NPM:
 # Usage
 
 ```
-googleImages = require('google-images');
+client = require 'google-images'
 
-googleImages.search('Katy Perry', function(results){
-	// let's say we want to save first image to a file
-	
-	results[0].writeTo('katy.png', function(){
-		// this function fires when file write op completed
+client.search 'Michael Jackson', (err, images) ->
+	image.writeTo 'path_to_image.extension', -> # image saved to the disk
 
-		console.log('finished');
-	});
-});
+client.search for: 'Michael Jackson', callback: (err, images) ->
+
+client.search for: 'Michael Jackson', page: 2, callback: (err, images) ->
+
+client.search 'Michael Jackson', page: 2, callback: (err, images) ->
+
 ```
 
 # License 
