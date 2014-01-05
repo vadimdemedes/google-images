@@ -1,7 +1,20 @@
 request = require 'request'
 fs = require 'fs'
 
-module.exports=
+generateInfo = (item) ->
+  info = 
+		width: item.width
+		height: item.height
+		unescapedUrl: item.unescapedUrl
+		url: item.url
+		writeTo: (path, callback) ->
+			stream = fs.createWriteStream path
+			stream.on 'close', ->
+				callback?()
+			request(item.url).pipe stream
+  return info
+
+module.exports =
 	search: (query, options) ->
 		if typeof query is 'object'
 			options = query
@@ -19,15 +32,6 @@ module.exports=
 			items = JSON.parse(body).responseData.results
 			images = []
 			for item in items
-				images.push
-					width: item.width
-					height: item.height
-					unescapedUrl: item.unescapedUrl
-					url: item.url
-					writeTo: (path, callback) ->
-						stream = fs.createWriteStream path
-						stream.on 'close', ->
-              callback?()
-						request(item.url).pipe stream
+        images.push generateInfo item
 			
 			callback no, images if callback
