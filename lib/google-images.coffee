@@ -27,7 +27,7 @@ module.exports=
 					writeTo: (path, callback) ->
 						stream = fs.createWriteStream path
 						stream.on 'close', ->
-							callback()
+              callback?()
 						request(item.url).pipe stream
 			
 			callback no, images if callback
