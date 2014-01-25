@@ -26,8 +26,9 @@ exports.search = (query, options) ->
 		callback = options.callback if options.callback?
 	
 	options.page = 0 if not options.page?
+	options.imgsz = 'medium' if not options.size?
 	
-	request "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=#{ encodeURIComponent(query.replace(/\s/g, '+')) }&start=#{ options.page }", (err, res, body) ->
+	request "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=#{ encodeURIComponent(query.replace(/\s/g, '+')) }&start=#{ options.page }&imgsz=#{ options.size }", (err, res, body) ->
 		try
 			data = JSON.parse(body)
 		catch error
