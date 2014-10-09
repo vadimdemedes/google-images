@@ -16,7 +16,11 @@ module.exports=
 		options.page = 0 if not options.page?
 		
 		request "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=#{ query.replace(/\s/g, '+') }&start=#{ options.page }", (err, res, body) ->
-			items = JSON.parse(body).responseData.results
+			return callback(err)  if err
+			return callback(null, [])  unless body
+			responseData = JSON.parse(body).responseData
+			return callback(null, [])  if not responseData or not responseData.results
+			items = responseData.results
 			images = []
 			for item in items
 				images.push
