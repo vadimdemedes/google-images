@@ -1,6 +1,6 @@
 {
     "name": "google-images"
-  , "version": "0.1.0"
+  , "version": "0.1.1"
   , "description": "Search images using Google Images"
   , "keywords": ["google", "images", "google images", "image search"]
   , "author": "Vadim Demedes <sbioko@gmail.com>"
