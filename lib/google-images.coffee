@@ -28,7 +28,16 @@ exports.search = (query, options) ->
 	options.page = 0 if not options.page?
 	
 	request "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=#{ query.replace(/\s/g, '+') }&start=#{ options.page }", (err, res, body) ->
-		items = JSON.parse(body).responseData.results
+		try
+			data = JSON.parse(body)
+		catch error
+			callback no, [] if callback
+			return
+
+		if not data.responseData or not data.responseData.results
+			callback no, [] if callback
+			return
+
 		images = []
 		for item in items
       images.push generateInfo item
