@@ -38,6 +38,8 @@ exports.search = (query, options) ->
 			callback no, [] if callback
 			return
 
+		items = data.responseData.results
+
 		images = []
 		for item in items
       images.push generateInfo item
