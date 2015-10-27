@@ -27,7 +27,7 @@ exports.search = (query, options) ->
 	
 	options.page = 0 if not options.page?
 	
-	request "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=#{ query.replace(/\s/g, '+') }&start=#{ options.page }", (err, res, body) ->
+	request "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=#{ encodeURIComponent(query.replace(/\s/g, '+')) }&start=#{ options.page }", (err, res, body) ->
 		try
 			data = JSON.parse(body)
 		catch error
