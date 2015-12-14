@@ -1,3 +1,5 @@
+**Deprecation Notice**: Google Image Search API is no longer working and so is this module, as a consequence. This module served well for 4 years and it's sad to see it not working anoymore, but life is life, time to move on. I recommend using Flickr API and  [flickrapi](https://www.npmjs.com/package/flickrapi) module from now on.
+
 # google-images
 
 This module for Node.js helps searching images using Google Images. It provides just one method, *search*, don't you need just that?
