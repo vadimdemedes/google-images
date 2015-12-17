@@ -3,10 +3,13 @@ fs = require 'fs'
 
 generateInfo = (item) ->
   info = 
-		width: item.width
-		height: item.height
-		unescapedUrl: item.unescapedUrl
-		url: item.url
+		height: item.image.height
+		width: item.image.width
+		url: item.link
+		byteSize: item.image.byteSize
+		thumbnailLink: item.image.thumbnailLink
+		thumbnailHeight: item.image.thumbnailHeight
+		thumbnailWidth: item.image.thumbnailWidth
 		writeTo: (path, callback) ->
 			stream = fs.createWriteStream path
 			stream.on 'close', ->
@@ -15,6 +18,17 @@ generateInfo = (item) ->
   return info
 
 exports.search = (query, options) ->
+
+	requestUrl = "https://www.googleapis.com/customsearch/v1?q=#{ encodeURIComponent(query.replace(/\s/g, '+')) }&searchType=image&cx=#{ options.cse_id }&key=#{ options.cse_api_key }"
+
+	# Because CSE API does not allow size and page parameters to be undefined
+	# Only apply them if they are defined
+	if options.page
+		requestUrl = requestUrl + "&start=#{ options.page }"
+
+	if options.size
+		requestUrl = requestUrl + "&imgSize=#{ options.size }"
+
 	if typeof query is 'object'
 		options = query
 		query = options.for
@@ -25,21 +39,18 @@ exports.search = (query, options) ->
 	if typeof query is 'string' and typeof options is 'object'
 		callback = options.callback if options.callback?
 	
-	options.page = 0 if not options.page?
-	options.imgsz = 'medium' if not options.size?
-	
-	request "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=#{ encodeURIComponent(query.replace(/\s/g, '+')) }&start=#{ options.page }&imgsz=#{ options.size }", (err, res, body) ->
+	request requestUrl, (err, res, body) ->
 		try
 			data = JSON.parse(body)
 		catch error
 			callback no, [] if callback
 			return
 
-		if not data.responseData or not data.responseData.results
+		if not data.items
 			callback no, [] if callback
 			return
 
-		items = data.responseData.results
+		items = data.items
 
 		images = []
 		for item in items
