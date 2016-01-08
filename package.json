@@ -26,7 +26,8 @@
     "xo": "^0.12.1"
   },
   "scripts": {
-    "test": "xo && ava --serial --verbose"
+    "test": "xo && nyc ava --serial --verbose",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "xo": {
     "extends": "vdemedes"

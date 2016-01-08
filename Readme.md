@@ -1,5 +1,8 @@
 # google-images
 
+[![Build Status](https://travis-ci.org/vdemedes/google-images.svg?branch=master)](https://travis-ci.org/vdemedes/google-images)
+[![Coverage Status](https://coveralls.io/repos/vdemedes/google-images/badge.svg?branch=master&service=github)](https://coveralls.io/github/vdemedes/google-images?branch=master)
+
 This module for Node.js helps searching images using Google Images.
 It provides just one method, *search*, simplicity FTW.
 
