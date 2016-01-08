@@ -13,7 +13,7 @@ $ npm install google-images --save
 
 ## Usage
 
-**Note**: You'll need to [set up your own Google Custom Search Engine](#setup-google-custom-search-engine) to search for images.
+**Note**: You'll need to [set up your own Google Custom Search Engine](#set-up-google-custom-search-engine) to search for images.
 
 ```js
 const googleImages = require('google-images');
@@ -22,9 +22,8 @@ let client = googleImages('CSE ID', 'API KEY');
 
 client.search('Steve Angello')
 	.then(function (images) {
-		// `images` is an array of objects, like:
 		/*
-		{
+		[{
 			"url": "http://steveangello.com/boss.jpg",
 			"type": "image/jpeg",
 			"width": 1024,
@@ -35,7 +34,7 @@ client.search('Steve Angello')
 				"width": 512,
 				"height": 512
 			}
-		}
+		}]
 		 */
 	});
 
@@ -67,7 +66,7 @@ For the most inclusive set, use the Schema: `Thing`. Make a note of the CSE ID.
 
 In your search engine settings, enable "Image search":
 
-![](media/screenshot.png)
+<img src="media/screenshot.png" width="408" />
 
 ### 3. Set up a Google Custom Search Engine API
 
