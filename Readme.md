@@ -11,17 +11,25 @@ Install from NPM:
 
 # Usage
 
-```
-client = require 'google-images'
+## Setup Google Custom Search Engine
 
-client.search 'Michael Jackson', (err, images) ->
+First you'll need to create your own Google Custom Search Engine. You can do this here: [https://cse.google.com/cse](https://cse.google.com/cse).
+
+Do not specify any sites to search but instead use the _Restrict Pages using Schema.org Types" under the advanced option. For the most inclusive set, use the Schema: `Thing`. Make a note of the CSE ID.
+
+Then you'll need to setup the CSE API in the [Google Developers Console](https://console.developers.google.com). Make a note of the API key.
+
+You'll need to use the CSE ID and API key in the request. Examples below"
+
+```
+client = require 'google-images'	
+
+client.search for: 'Michael Jackson', cse_id: xxxx, cse_api_key: xxxx, callback: (err, images) ->
 	image.writeTo 'path_to_image.extension', -> # image saved to the disk
 
-client.search for: 'Michael Jackson', callback: (err, images) ->
+client.search for: 'Michael Jackson', page: 2, cse_id: xxxx, cse_api_key: xxxx callback: (err, images) ->
 
-client.search for: 'Michael Jackson', page: 2, callback: (err, images) ->
-
-client.search 'Michael Jackson', page: 2, callback: (err, images) ->
+client.search 'Michael Jackson', page: 2, cse_id: xxxx, cse_api_key: xxxx, callback: (err, images) ->
 
 ```
 
