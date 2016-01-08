@@ -1,10 +1,30 @@
 {
-    "name": "google-images"
-  , "version": "0.1.4"
-  , "description": "Search images using Google Images"
-  , "keywords": ["google", "images", "google images", "image search"]
-  , "author": "Vadim Demedes <sbioko@gmail.com>"
-  , "dependencies": { "request": "*" }
-  , "main": "index"
-  , "engines": { "node": ">= 0.4" }
+  "name": "google-images",
+  "version": "1.0.0",
+  "description": "Search images using Google Images",
+  "keywords": [
+    "google",
+    "images",
+    "google images",
+    "image search"
+  ],
+  "author": "Vadim Demedes <vdemedes@gmail.com>",
+  "repository": "vdemedes/google-images",
+	"files": [
+		"index.js"
+	],
+  "dependencies": {
+    "got": "^5.3.0"
+  },
+  "devDependencies": {
+    "ava": "^0.9.1",
+    "eslint-config-vdemedes": "^1.0.1",
+    "xo": "^0.12.1"
+  },
+	"scripts": {
+		"test": "xo && ava --serial --verbose"
+	},
+	"xo": {
+		"extends": "vdemedes"
+	}
 }
