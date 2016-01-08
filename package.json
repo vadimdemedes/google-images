@@ -8,23 +8,27 @@
     "google images",
     "image search"
   ],
+  "license": "MIT",
   "author": "Vadim Demedes <vdemedes@gmail.com>",
   "repository": "vdemedes/google-images",
-	"files": [
-		"index.js"
-	],
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
   "dependencies": {
     "got": "^5.3.0"
   },
   "devDependencies": {
     "ava": "^0.9.1",
+    "coveralls": "^2.11.6",
     "eslint-config-vdemedes": "^1.0.1",
+    "nyc": "^5.3.0",
     "xo": "^0.12.1"
   },
-	"scripts": {
-		"test": "xo && ava --serial --verbose"
-	},
-	"xo": {
-		"extends": "vdemedes"
-	}
+  "scripts": {
+    "test": "xo && ava --serial --verbose"
+  },
+  "xo": {
+    "extends": "vdemedes"
+  }
 }
