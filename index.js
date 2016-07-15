@@ -29,7 +29,10 @@ Client.prototype.search = function (query, options) {
 	return got(this.endpoint + '/customsearch/v1', {
 		query: this._buildOptions(query, options),
 		json: true
-	}).then(this._buildResponse);
+	}).then(this._buildResponse).catch(error => {
+        console.log(error.response.body);
+        //=> 'Internal server error ...' 
+    });
 };
 
 Client.prototype._buildOptions = function (query, options) {
