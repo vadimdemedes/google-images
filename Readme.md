@@ -48,7 +48,7 @@ client.search('Steve Angello', {
 
 // search for certain size
 client.search('Steve Angello', {
-	size: 'large'
+	size: 'Large'
 });
 ```
 

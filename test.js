@@ -68,7 +68,7 @@ test('size option', async t => {
 		searchType: 'image',
 		cx: 'id',
 		key: 'api',
-		imgSize: 'large'
+		imgSize: 'Large'
 	});
 
 	server.on('/customsearch/v1?' + query, (req, res) => {
@@ -77,7 +77,7 @@ test('size option', async t => {
 	});
 
 	let images = await client.search('steve angello', {
-		size: 'large'
+		size: 'Large'
 	});
 
 	t.same(images, fakeImages());
