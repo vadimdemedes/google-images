@@ -1,7 +1,4 @@
-# google-images
-
-[![Build Status](https://travis-ci.org/vdemedes/google-images.svg?branch=master)](https://travis-ci.org/vdemedes/google-images)
-[![Coverage Status](https://coveralls.io/repos/vdemedes/google-images/badge.svg?branch=master&service=github)](https://coveralls.io/github/vdemedes/google-images?branch=master)
+# google-images [![Build Status](https://travis-ci.org/vdemedes/google-images.svg?branch=master)](https://travis-ci.org/vdemedes/google-images) [![Coverage Status](https://coveralls.io/repos/vdemedes/google-images/badge.svg?branch=master&service=github)](https://coveralls.io/github/vdemedes/google-images?branch=master)
 
 This module for Node.js helps searching images using Google Images.
 It provides just one method, *search*, simplicity FTW.
@@ -19,9 +16,9 @@ $ npm install google-images --save
 **Note**: You'll need to [set up your own Google Custom Search Engine](#set-up-google-custom-search-engine) to search for images.
 
 ```js
-const googleImages = require('google-images');
+const ImagesClient = require('google-images');
 
-let client = googleImages('CSE ID', 'API KEY');
+let client = new ImagesClient('CSE ID', 'API KEY');
 
 client.search('Steve Angello')
 	.then(function (images) {
@@ -75,13 +72,6 @@ In your search engine settings, enable "Image search":
 
 Register a new app and enable Google Custom Search Engine API here: [Google Developers Console](https://console.developers.google.com).
 Make a note of the API key.
-
-
-## Tests
-
-```
-$ npm test
-```
 
 
 ## License

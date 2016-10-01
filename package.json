@@ -14,22 +14,17 @@
   "files": [
     "index.js"
   ],
-  "main": "index.js",
   "dependencies": {
-    "got": "^5.3.0"
+    "got": "^6.5.0"
   },
   "devDependencies": {
-    "ava": "^0.9.1",
-    "coveralls": "^2.11.6",
-    "eslint-config-vdemedes": "^1.0.1",
-    "nyc": "^5.3.0",
-    "xo": "^0.12.1"
+    "ava": "^0.16.0",
+    "coveralls": "^2.11.14",
+    "nyc": "^8.3.0",
+    "xo": "^0.16.0"
   },
   "scripts": {
     "test": "xo && nyc ava --serial --verbose",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
-  },
-  "xo": {
-    "extends": "vdemedes"
   }
 }

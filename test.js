@@ -1,25 +1,16 @@
 'use strict';
 
-/**
- * Dependencies
- */
-
-const test = require('ava');
 const http = require('http');
 const qs = require('querystring');
+const test = require('ava');
 
-const googleImages = require('./');
-
-
-/**
- * Tests
- */
+const ImagesClient = require('./');
 
 test('query', async t => {
-	let client = testClient('id', 'api');
-	let server = testServer();
+	const client = testClient('id', 'api');
+	const server = testServer();
 
-	let query = qs.stringify({
+	const query = qs.stringify({
 		q: 'steve+angello',
 		searchType: 'image',
 		cx: 'id',
@@ -31,15 +22,15 @@ test('query', async t => {
 		server.close();
 	});
 
-	let images = await client.search('steve angello');
-	t.same(images, fakeImages());
+	const images = await client.search('steve angello');
+	t.deepEqual(images, fakeImages());
 });
 
 test('page option', async t => {
-	let client = testClient('id', 'api');
-	let server = testServer();
+	const client = testClient('id', 'api');
+	const server = testServer();
 
-	let query = qs.stringify({
+	const query = qs.stringify({
 		q: 'steve+angello',
 		searchType: 'image',
 		cx: 'id',
@@ -52,18 +43,18 @@ test('page option', async t => {
 		server.close();
 	});
 
-	let images = await client.search('steve angello', {
+	const images = await client.search('steve angello', {
 		page: 1
 	});
 
-	t.same(images, fakeImages());
+	t.deepEqual(images, fakeImages());
 });
 
 test('size option', async t => {
-	let client = testClient('id', 'api');
-	let server = testServer();
+	const client = testClient('id', 'api');
+	const server = testServer();
 
-	let query = qs.stringify({
+	const query = qs.stringify({
 		q: 'steve+angello',
 		searchType: 'image',
 		cx: 'id',
@@ -76,27 +67,22 @@ test('size option', async t => {
 		server.close();
 	});
 
-	let images = await client.search('steve angello', {
+	const images = await client.search('steve angello', {
 		size: 'large'
 	});
 
-	t.same(images, fakeImages());
+	t.deepEqual(images, fakeImages());
 });
 
-
-/**
- * Helpers
- */
-
-function testClient (id, apiKey) {
-	let client = googleImages(id, apiKey);
+function testClient(id, apiKey) {
+	const client = new ImagesClient(id, apiKey);
 	client.endpoint = 'http://localhost:9999';
 
 	return client;
 }
 
-function testServer () {
-	let server = http.createServer(function (req, res) {
+function testServer() {
+	const server = http.createServer(function (req, res) {
 		server.emit(req.url, req, res);
 	});
 
@@ -105,7 +91,7 @@ function testServer () {
 	return server;
 }
 
-function fakeResponse () {
+function fakeResponse() {
 	return JSON.stringify({
 		items: [{
 			link: 'http://steveangello.com/boss.jpg',
@@ -122,7 +108,7 @@ function fakeResponse () {
 	});
 }
 
-function fakeImages () {
+function fakeImages() {
 	return [{
 		url: 'http://steveangello.com/boss.jpg',
 		type: 'image/jpeg',
