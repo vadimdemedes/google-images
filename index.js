@@ -26,6 +26,8 @@ Client.prototype.search = function (query, options) {
 		throw new TypeError('Expected a query');
 	}
 
+	query = query.replace(/[- ]/g, '');
+
 	return got(this.endpoint + '/customsearch/v1', {
 		query: this._buildOptions(query, options),
 		json: true
