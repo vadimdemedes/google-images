@@ -50,6 +50,77 @@ client.search('Steve Angello', {
 ```
 
 
+## API
+
+Please see Google's [API documentation](https://developers.google.com/custom-search/json-api/v1/reference/cse/list#parameters) for details on the option and response properties and their possible values. Note that the option names used here may differ slightly (e.g. no `img` prefix).
+
+### Client(engineId, apiKey)
+
+#### engineId
+
+Type: `string`
+
+The [identifier](https://developers.google.com/custom-search/json-api/v1/overview#prerequisites) for a Custom Search Engine to use.
+
+#### apiKey
+
+Type: `string`
+
+The [credentials](https://support.google.com/googleapi/answer/6158857?hl=en) for accessing Google's API.
+
+### Instance
+
+#### .search(query, option)
+
+Perform an image search for `query`.
+
+##### query
+
+Type: `string`
+
+The search terms to use for finding images. Identical to those you would use in a web search.
+
+##### option
+
+Type: `object`
+
+###### page
+
+Type: `number`<br>
+Default: `1`
+
+The range of results to return. Useful because often results cannot be returned in a single response. Note that it is a one-based unsigned integer. E.g. page `1` has the first 10 results, page `2` has the next set of 10, etc.
+
+###### size
+
+Type: `string`
+
+The size of images to search. E.g. `medium` or `xxlarge`.
+
+###### type
+
+Type: `string`
+
+The category of images to search. E.g. `face` or `photo`.
+
+###### dominantColor
+
+Type: `string`
+
+The [dominant color](https://designshack.net/articles/graphics/understanding-color-dominant-vs-recessive-colors/) to search for. E.g. `yellow` or `purple`.
+
+###### colorType
+
+Type: `string`
+
+The category of color spectrums to search. E.g. `gray` or `color`.
+
+###### safe
+
+Type: `string`
+
+The heuristic level to use for filtering out explicit content using [SafeSearch](https://en.wikipedia.org/wiki/SafeSearch). E.g. `off` or `high`.
+
 ## Set up Google Custom Search Engine
 
 Google deprecated their public Google Images API, so to search for images you need to sign up for Google Custom Search Engine.
