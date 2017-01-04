@@ -40,6 +40,22 @@ class Client {
 			result.imgSize = options.size;
 		}
 
+		if (options.type) {
+			result.imgType = options.type;
+		}
+
+		if (options.dominantColor) {
+			result.imgDominantColor = options.dominantColor;
+		}
+
+		if (options.colorType) {
+			result.imgColorType = options.colorType;
+		}
+
+		if (options.safe) {
+			result.safe = options.safe;
+		}
+
 		return qs.stringify(result);
 	}
 

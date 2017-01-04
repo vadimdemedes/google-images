@@ -6,6 +6,36 @@ const test = require('ava');
 
 const ImagesClient = require('./');
 
+test('no query', async t => {
+	const client = testClient('id', 'api');
+
+	const error = t.throws(() => {
+		client.search('');
+	}, TypeError);
+
+	t.is(error.message, 'Expected a query');
+});
+
+test('no results', async t => {
+	const client = testClient('id', 'api');
+	const server = testServer();
+
+	const query = qs.stringify({
+		q: 'somethingmadeup',
+		searchType: 'image',
+		cx: 'id',
+		key: 'api'
+	});
+
+	server.on('/customsearch/v1?' + query, (req, res) => {
+		res.end();
+		server.close();
+	});
+
+	const images = await client.search('somethingmadeup');
+	t.deepEqual(images, []);
+});
+
 test('query', async t => {
 	const client = testClient('id', 'api');
 	const server = testServer();
@@ -69,6 +99,102 @@ test('size option', async t => {
 
 	const images = await client.search('steve angello', {
 		size: 'large'
+	});
+
+	t.deepEqual(images, fakeImages());
+});
+
+test('type option', async t => {
+	const client = testClient('id', 'api');
+	const server = testServer();
+
+	const query = qs.stringify({
+		q: 'steve+angello',
+		searchType: 'image',
+		cx: 'id',
+		key: 'api',
+		imgType: 'clipart'
+	});
+
+	server.on('/customsearch/v1?' + query, (req, res) => {
+		res.end(fakeResponse());
+		server.close();
+	});
+
+	const images = await client.search('steve angello', {
+		type: 'clipart'
+	});
+
+	t.deepEqual(images, fakeImages());
+});
+
+test('dominantColor option', async t => {
+	const client = testClient('id', 'api');
+	const server = testServer();
+
+	const query = qs.stringify({
+		q: 'steve+angello',
+		searchType: 'image',
+		cx: 'id',
+		key: 'api',
+		imgDominantColor: 'green'
+	});
+
+	server.on('/customsearch/v1?' + query, (req, res) => {
+		res.end(fakeResponse());
+		server.close();
+	});
+
+	const images = await client.search('steve angello', {
+		dominantColor: 'green'
+	});
+
+	t.deepEqual(images, fakeImages());
+});
+
+test('colorType option', async t => {
+	const client = testClient('id', 'api');
+	const server = testServer();
+
+	const query = qs.stringify({
+		q: 'steve+angello',
+		searchType: 'image',
+		cx: 'id',
+		key: 'api',
+		imgColorType: 'gray'
+	});
+
+	server.on('/customsearch/v1?' + query, (req, res) => {
+		res.end(fakeResponse());
+		server.close();
+	});
+
+	const images = await client.search('steve angello', {
+		colorType: 'gray'
+	});
+
+	t.deepEqual(images, fakeImages());
+});
+
+test('safe option', async t => {
+	const client = testClient('id', 'api');
+	const server = testServer();
+
+	const query = qs.stringify({
+		q: 'steve+angello',
+		searchType: 'image',
+		cx: 'id',
+		key: 'api',
+		safe: 'medium'
+	});
+
+	server.on('/customsearch/v1?' + query, (req, res) => {
+		res.end(fakeResponse());
+		server.close();
+	});
+
+	const images = await client.search('steve angello', {
+		safe: 'medium'
 	});
 
 	t.deepEqual(images, fakeImages());
