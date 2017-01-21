@@ -55,6 +55,10 @@ class Client {
 		if (options.safe) {
 			result.safe = options.safe;
 		}
+		
+		if (options.format) {
+			result.fileType = options.format;
+		} 
 
 		return qs.stringify(result);
 	}
