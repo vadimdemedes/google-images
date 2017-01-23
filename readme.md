@@ -121,6 +121,12 @@ Type: `string`
 
 The heuristic level to use for filtering out explicit content using [SafeSearch](https://en.wikipedia.org/wiki/SafeSearch). E.g. `off` or `high`.
 
+###### fileType
+
+Type: `string`
+
+The format of images to search. E.g. `jpg` or `GIF`.
+
 ## Set up Google Custom Search Engine
 
 Google deprecated their public Google Images API, so to search for images you need to sign up for Google Custom Search Engine.

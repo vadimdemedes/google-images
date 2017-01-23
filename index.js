@@ -7,9 +7,9 @@ class Client {
 	constructor(id, apiKey) {
 		this.endpoint = 'https://www.googleapis.com';
 		this.apiKey = apiKey;
+
 		this.id = id;
 	}
-
 	search(query, options) {
 		if (!query) {
 			throw new TypeError('Expected a query');
@@ -56,8 +56,8 @@ class Client {
 			result.safe = options.safe;
 		}
 		
-		if (options.format) {
-			result.fileType = options.format;
+		if (options.fileType) {
+			result.fileType = options.fileType;
 		} 
 
 		return qs.stringify(result);
