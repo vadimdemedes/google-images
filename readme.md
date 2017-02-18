@@ -24,16 +24,24 @@ client.search('Steve Angello')
 	.then(function (images) {
 		/*
 		[{
-			"url": "http://steveangello.com/boss.jpg",
-			"type": "image/jpeg",
-			"width": 1024,
-			"height": 768,
-			"size": 102451,
-			"thumbnail": {
-				"url": "http://steveangello.com/thumbnail.jpg",
-				"width": 512,
-				"height": 512
-			}
+		    kind: 'customsearch#result',
+		    title: 'Steve Angello Confirms New Album Set To Release In 2017 - The ...',
+		    htmlTitle: '<b>Steve Angello</b> Confirms New Album Set To Release In 2017 - The ...',
+		    link: 'http://s3-ap-southeast-1.amazonaws.com/banginbeats-images/tbb/wp-content/uploads/2016/12/17135828/steveangello_3.jpg',
+		    displayLink: 'thebanginbeats.com',
+		    snippet: 'Steve Angello Confirms New ...',
+		    htmlSnippet: '<b>Steve Angello</b> Confirms New ...',
+		    mime: 'image/jpeg',
+		    image: { 
+		      contextLink: 'http://thebanginbeats.com/2016/12/steve-angello-confirms-new-album-set-release-2017/',
+		       height: 430,
+		       width: 700,
+		       byteSize: 22050,
+		       thumbnailLink: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSRbx2z2oeJJtWnp34vHsV_1f6DlbQoZFrcX3_GHFrLT7nBENp9fdkfcLvr',
+		       thumbnailHeight: 86,
+		       thumbnailWidth: 140 
+		    	
+		    } 
 		}]
 		 */
 	});

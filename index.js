@@ -61,18 +61,7 @@ class Client {
 
 	_buildResponse(res) {
 		return (res.body.items || []).map(function (item) {
-			return {
-				type: item.mime,
-				width: item.image.width,
-				height: item.image.height,
-				size: item.image.byteSize,
-				url: item.link,
-				thumbnail: {
-					url: item.image.thumbnailLink,
-					width: item.image.thumbnailWidth,
-					height: item.image.thumbnailHeight
-				}
-			};
+			return item;
 		});
 	}
 }
