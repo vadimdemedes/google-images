@@ -5,6 +5,14 @@ const got = require('got');
 
 class Client {
 	constructor(id, apiKey) {
+		if (!id) {
+			throw new TypeError('Expected a Custom Search Engine ID');
+		}
+
+		if (!apiKey) {
+			throw new TypeError('Expected an API key');
+		}
+
 		this.endpoint = 'https://www.googleapis.com';
 		this.apiKey = apiKey;
 		this.id = id;
@@ -15,17 +23,30 @@ class Client {
 			throw new TypeError('Expected a query');
 		}
 
-		return got(this.endpoint + '/customsearch/v1?' + this._buildOptions(query, options), {
-			json: true
-		}).then(this._buildResponse);
+		const url = `${this.endpoint}/customsearch/v1?${this.buildQuery(query, options)}`;
+
+		return got(url, {json: true}).then(res => {
+			const items = res.body.items || [];
+
+			return items.map(item => ({
+				type: item.mime,
+				width: item.image.width,
+				height: item.image.height,
+				size: item.image.byteSize,
+				url: item.link,
+				thumbnail: {
+					url: item.image.thumbnailLink,
+					width: item.image.thumbnailWidth,
+					height: item.image.thumbnailHeight
+				}
+			}));
+		});
 	}
 
-	_buildOptions(query, options) {
-		if (!options) {
-			options = {};
-		}
+	buildQuery(query, options) {
+		options = options || {};
 
-		var result = {
+		const result = {
 			q: query.replace(/\s/g, '+'),
 			searchType: 'image',
 			cx: this.id,
@@ -57,23 +78,6 @@ class Client {
 		}
 
 		return qs.stringify(result);
-	}
-
-	_buildResponse(res) {
-		return (res.body.items || []).map(function (item) {
-			return {
-				type: item.mime,
-				width: item.image.width,
-				height: item.image.height,
-				size: item.image.byteSize,
-				url: item.link,
-				thumbnail: {
-					url: item.image.thumbnailLink,
-					width: item.image.thumbnailWidth,
-					height: item.image.thumbnailHeight
-				}
-			};
-		});
 	}
 }
 

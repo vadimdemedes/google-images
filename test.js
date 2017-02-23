@@ -1,250 +1,196 @@
 'use strict';
 
-const http = require('http');
-const qs = require('querystring');
+const nock = require('nock');
 const test = require('ava');
+const Client = require('./');
 
-const ImagesClient = require('./');
+const fakeResponse = JSON.stringify({
+	items: [{
+		link: 'http://steveangello.com/boss.jpg',
+		mime: 'image/jpeg',
+		image: {
+			width: 1024,
+			height: 768,
+			byteSize: 1000,
+			thumbnailLink: 'http://steveangello.com/thumbboss.jpg',
+			thumbnailWidth: 512,
+			thumbnailHeight: 512
+		}
+	}]
+});
 
-test('no query', async t => {
-	const client = testClient('id', 'api');
+const fakeImages = [{
+	url: 'http://steveangello.com/boss.jpg',
+	type: 'image/jpeg',
+	width: 1024,
+	height: 768,
+	size: 1000,
+	thumbnail: {
+		url: 'http://steveangello.com/thumbboss.jpg',
+		width: 512,
+		height: 512
+	}
+}];
 
-	const error = t.throws(() => {
-		client.search('');
-	}, TypeError);
+test('fail when cse id is missing', t => {
+	t.throws(() => new Client(), 'Expected a Custom Search Engine ID');
+});
 
-	t.is(error.message, 'Expected a query');
+test('fail when api key is missing', t => {
+	t.throws(() => new Client('id'), 'Expected an API key');
+});
+
+test('fail when query is missing', async t => {
+	const client = new Client('id', 'api');
+	t.throws(() => client.search(), 'Expected a query');
 });
 
 test('no results', async t => {
-	const client = testClient('id', 'api');
-	const server = testServer();
+	const client = new Client('id', 'api');
 
-	const query = qs.stringify({
-		q: 'somethingmadeup',
-		searchType: 'image',
-		cx: 'id',
-		key: 'api'
-	});
-
-	server.on('/customsearch/v1?' + query, (req, res) => {
-		res.end();
-		server.close();
-	});
+	const req = nock('https://www.googleapis.com')
+		.get('/customsearch/v1')
+		.query({
+			q: 'somethingmadeup',
+			searchType: 'image',
+			cx: 'id',
+			key: 'api'
+		})
+		.reply(200, {items: []});
 
 	const images = await client.search('somethingmadeup');
 	t.deepEqual(images, []);
+	t.true(req.isDone());
 });
 
 test('query', async t => {
-	const client = testClient('id', 'api');
-	const server = testServer();
+	const client = new Client('id', 'api');
 
-	const query = qs.stringify({
-		q: 'steve+angello',
-		searchType: 'image',
-		cx: 'id',
-		key: 'api'
-	});
-
-	server.on('/customsearch/v1?' + query, (req, res) => {
-		res.end(fakeResponse());
-		server.close();
-	});
+	const req = nock('https://www.googleapis.com')
+		.get('/customsearch/v1')
+		.query({
+			q: 'steve+angello',
+			searchType: 'image',
+			cx: 'id',
+			key: 'api'
+		})
+		.reply(200, fakeResponse);
 
 	const images = await client.search('steve angello');
-	t.deepEqual(images, fakeImages());
+	t.deepEqual(images, fakeImages);
+	t.true(req.isDone());
 });
 
 test('page option', async t => {
-	const client = testClient('id', 'api');
-	const server = testServer();
+	const client = new Client('id', 'api');
 
-	const query = qs.stringify({
-		q: 'steve+angello',
-		searchType: 'image',
-		cx: 'id',
-		key: 'api',
-		start: 1
-	});
+	const req = nock('https://www.googleapis.com')
+		.get('/customsearch/v1')
+		.query({
+			q: 'steve+angello',
+			searchType: 'image',
+			cx: 'id',
+			key: 'api',
+			start: 1
+		})
+		.reply(200, fakeResponse);
 
-	server.on('/customsearch/v1?' + query, (req, res) => {
-		res.end(fakeResponse());
-		server.close();
-	});
-
-	const images = await client.search('steve angello', {
-		page: 1
-	});
-
-	t.deepEqual(images, fakeImages());
+	const images = await client.search('steve angello', {page: 1});
+	t.deepEqual(images, fakeImages);
+	t.true(req.isDone());
 });
 
 test('size option', async t => {
-	const client = testClient('id', 'api');
-	const server = testServer();
+	const client = new Client('id', 'api');
 
-	const query = qs.stringify({
-		q: 'steve+angello',
-		searchType: 'image',
-		cx: 'id',
-		key: 'api',
-		imgSize: 'large'
-	});
+	const req = nock('https://www.googleapis.com')
+		.get('/customsearch/v1')
+		.query({
+			q: 'steve+angello',
+			searchType: 'image',
+			cx: 'id',
+			key: 'api',
+			imgSize: 'large'
+		})
+		.reply(200, fakeResponse);
 
-	server.on('/customsearch/v1?' + query, (req, res) => {
-		res.end(fakeResponse());
-		server.close();
-	});
-
-	const images = await client.search('steve angello', {
-		size: 'large'
-	});
-
-	t.deepEqual(images, fakeImages());
+	const images = await client.search('steve angello', {size: 'large'});
+	t.deepEqual(images, fakeImages);
+	t.true(req.isDone());
 });
 
 test('type option', async t => {
-	const client = testClient('id', 'api');
-	const server = testServer();
+	const client = new Client('id', 'api');
 
-	const query = qs.stringify({
-		q: 'steve+angello',
-		searchType: 'image',
-		cx: 'id',
-		key: 'api',
-		imgType: 'clipart'
-	});
+	const req = nock('https://www.googleapis.com')
+		.get('/customsearch/v1')
+		.query({
+			q: 'steve+angello',
+			searchType: 'image',
+			cx: 'id',
+			key: 'api',
+			imgType: 'clipart'
+		})
+		.reply(200, fakeResponse);
 
-	server.on('/customsearch/v1?' + query, (req, res) => {
-		res.end(fakeResponse());
-		server.close();
-	});
-
-	const images = await client.search('steve angello', {
-		type: 'clipart'
-	});
-
-	t.deepEqual(images, fakeImages());
+	const images = await client.search('steve angello', {type: 'clipart'});
+	t.deepEqual(images, fakeImages);
+	t.true(req.isDone());
 });
 
-test('dominantColor option', async t => {
-	const client = testClient('id', 'api');
-	const server = testServer();
+test('dominant color option', async t => {
+	const client = new Client('id', 'api');
 
-	const query = qs.stringify({
-		q: 'steve+angello',
-		searchType: 'image',
-		cx: 'id',
-		key: 'api',
-		imgDominantColor: 'green'
-	});
+	const req = nock('https://www.googleapis.com')
+		.get('/customsearch/v1')
+		.query({
+			q: 'steve+angello',
+			searchType: 'image',
+			cx: 'id',
+			key: 'api',
+			imgDominantColor: 'green'
+		})
+		.reply(200, fakeResponse);
 
-	server.on('/customsearch/v1?' + query, (req, res) => {
-		res.end(fakeResponse());
-		server.close();
-	});
-
-	const images = await client.search('steve angello', {
-		dominantColor: 'green'
-	});
-
-	t.deepEqual(images, fakeImages());
+	const images = await client.search('steve angello', {dominantColor: 'green'});
+	t.deepEqual(images, fakeImages);
+	t.true(req.isDone());
 });
 
-test('colorType option', async t => {
-	const client = testClient('id', 'api');
-	const server = testServer();
+test('color type option', async t => {
+	const client = new Client('id', 'api');
 
-	const query = qs.stringify({
-		q: 'steve+angello',
-		searchType: 'image',
-		cx: 'id',
-		key: 'api',
-		imgColorType: 'gray'
-	});
+	const req = nock('https://www.googleapis.com')
+		.get('/customsearch/v1')
+		.query({
+			q: 'steve+angello',
+			searchType: 'image',
+			cx: 'id',
+			key: 'api',
+			imgColorType: 'gray'
+		})
+		.reply(200, fakeResponse);
 
-	server.on('/customsearch/v1?' + query, (req, res) => {
-		res.end(fakeResponse());
-		server.close();
-	});
-
-	const images = await client.search('steve angello', {
-		colorType: 'gray'
-	});
-
-	t.deepEqual(images, fakeImages());
+	const images = await client.search('steve angello', {colorType: 'gray'});
+	t.deepEqual(images, fakeImages);
+	t.true(req.isDone());
 });
 
 test('safe option', async t => {
-	const client = testClient('id', 'api');
-	const server = testServer();
+	const client = new Client('id', 'api');
 
-	const query = qs.stringify({
-		q: 'steve+angello',
-		searchType: 'image',
-		cx: 'id',
-		key: 'api',
-		safe: 'medium'
-	});
+	const req = nock('https://www.googleapis.com')
+		.get('/customsearch/v1')
+		.query({
+			q: 'steve+angello',
+			searchType: 'image',
+			cx: 'id',
+			key: 'api',
+			safe: 'medium'
+		})
+		.reply(200, fakeResponse);
 
-	server.on('/customsearch/v1?' + query, (req, res) => {
-		res.end(fakeResponse());
-		server.close();
-	});
-
-	const images = await client.search('steve angello', {
-		safe: 'medium'
-	});
-
-	t.deepEqual(images, fakeImages());
+	const images = await client.search('steve angello', {safe: 'medium'});
+	t.deepEqual(images, fakeImages);
+	t.true(req.isDone());
 });
-
-function testClient(id, apiKey) {
-	const client = new ImagesClient(id, apiKey);
-	client.endpoint = 'http://localhost:9999';
-
-	return client;
-}
-
-function testServer() {
-	const server = http.createServer(function (req, res) {
-		server.emit(req.url, req, res);
-	});
-
-	server.listen(9999);
-
-	return server;
-}
-
-function fakeResponse() {
-	return JSON.stringify({
-		items: [{
-			link: 'http://steveangello.com/boss.jpg',
-			mime: 'image/jpeg',
-			image: {
-				width: 1024,
-				height: 768,
-				byteSize: 1000,
-				thumbnailLink: 'http://steveangello.com/thumbboss.jpg',
-				thumbnailWidth: 512,
-				thumbnailHeight: 512
-			}
-		}]
-	});
-}
-
-function fakeImages() {
-	return [{
-		url: 'http://steveangello.com/boss.jpg',
-		type: 'image/jpeg',
-		width: 1024,
-		height: 768,
-		size: 1000,
-		thumbnail: {
-			url: 'http://steveangello.com/thumbboss.jpg',
-			width: 512,
-			height: 512
-		}
-	}];
-}

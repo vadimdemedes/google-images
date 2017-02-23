@@ -1,30 +1,31 @@
 {
   "name": "google-images",
   "version": "2.0.0",
-  "description": "Search images using Google Images",
+  "description": "Search images using Google Custom Search Engine API",
+  "license": "MIT",
+  "author": "Vadim Demedes <vdemedes@gmail.com>",
+  "repository": "vadimdemedes/google-images",
   "keywords": [
     "google",
     "images",
     "google images",
     "image search"
   ],
-  "license": "MIT",
-  "author": "Vadim Demedes <vdemedes@gmail.com>",
-  "repository": "vdemedes/google-images",
+  "scripts": {
+    "test": "xo && ava --serial"
+  },
+  "engines": {
+    "node": ">= 4"
+  },
   "files": [
     "index.js"
   ],
   "dependencies": {
-    "got": "^6.5.0"
+    "got": "^6.7.1"
   },
   "devDependencies": {
-    "ava": "^0.16.0",
-    "coveralls": "^2.11.14",
-    "nyc": "^8.3.0",
-    "xo": "^0.16.0"
-  },
-  "scripts": {
-    "test": "xo && nyc ava --serial --verbose",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "ava": "^0.18.2",
+    "nock": "^9.0.6",
+    "xo": "^0.17.1"
   }
 }
