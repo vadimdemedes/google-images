@@ -38,7 +38,9 @@ class Client {
 					url: item.image.thumbnailLink,
 					width: item.image.thumbnailWidth,
 					height: item.image.thumbnailHeight
-				}
+				},
+				description: item.snippet,
+				parentPage: item.image.contextLink
 			}));
 		});
 	}

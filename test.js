@@ -8,7 +8,9 @@ const fakeResponse = JSON.stringify({
 	items: [{
 		link: 'http://steveangello.com/boss.jpg',
 		mime: 'image/jpeg',
+		snippet: 'Steve Angello',
 		image: {
+			contextLink: 'http://steveangello.com',
 			width: 1024,
 			height: 768,
 			byteSize: 1000,
@@ -29,7 +31,9 @@ const fakeImages = [{
 		url: 'http://steveangello.com/thumbboss.jpg',
 		width: 512,
 		height: 512
-	}
+	},
+	description: 'Steve Angello',
+	parentPage: 'http://steveangello.com'
 }];
 
 test('fail when cse id is missing', t => {
