@@ -15,9 +15,9 @@ class Client {
 
 		this.endpoint = 'https://www.googleapis.com';
 		this.apiKey = apiKey;
+
 		this.id = id;
 	}
-
 	search(query, options) {
 		if (!query) {
 			throw new TypeError('Expected a query');
@@ -78,6 +78,10 @@ class Client {
 		if (options.safe) {
 			result.safe = options.safe;
 		}
+		
+		if (options.fileType) {
+			result.fileType = options.fileType;
+		} 
 
 		return qs.stringify(result);
 	}
