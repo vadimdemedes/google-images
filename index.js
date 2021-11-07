@@ -56,7 +56,7 @@ class Client {
 		};
 
 		if (options.page) {
-			result.start = options.page;
+			result.start = parseInt(options.page * 10);
 		}
 
 		if (options.size) {
