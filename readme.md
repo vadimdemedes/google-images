@@ -2,13 +2,11 @@
 
 > Search images using Google Custom Search Engine API.
 
-
 ## Installation
 
 ```
-$ npm install --save google-images
+npm install --save google-images
 ```
-
 
 ## Usage
 
@@ -20,22 +18,24 @@ const GoogleImages = require('google-images');
 const client = new GoogleImages('CSE ID', 'API KEY');
 
 client.search('Steve Angello')
-	.then(images => {
-		/*
-		[{
-			"url": "http://steveangello.com/boss.jpg",
-			"type": "image/jpeg",
-			"width": 1024,
-			"height": 768,
-			"size": 102451,
-			"thumbnail": {
-				"url": "http://steveangello.com/thumbnail.jpg",
-				"width": 512,
-				"height": 512
-			}
-		}]
-		 */
-	});
+ .then(images => {
+  /*
+  [{
+    "link": 'http://steveangello.com/boss.jpg',
+    "mime": 'image/jpeg',
+    "snippet": 'Steve Angello',
+    "image": {
+      "contextLink": 'http://steveangello.com',
+      "width": 1024,
+      "height": 768,
+      "byteSize": 1000,
+      "thumbnailLink": 'http://steveangello.com/thumbboss.jpg',
+      "thumbnailWidth": 512,
+      "thumbnailHeight": 512
+    }
+  }]
+  */
+ });
 
 // paginate results
 client.search('Steve Angello', {page: 2});
@@ -43,7 +43,6 @@ client.search('Steve Angello', {page: 2});
 // search for certain size
 client.search('Steve Angello', {size: 'large'});
 ```
-
 
 ## API
 
@@ -138,7 +137,6 @@ In your search engine settings, enable "Image search":
 
 Register a new app and enable Google Custom Search Engine API here: [Google Developers Console](https://console.developers.google.com).
 Make a note of the API key.
-
 
 ## License
 
